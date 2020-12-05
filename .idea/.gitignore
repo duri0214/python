@@ -1,0 +1,26 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+# Datasource local storage ignored files
+/../../../../../:\OneDrive\dev\Python\.idea/dataSources/
+/dataSources.local.xml
+# Editor-based HTTP Client requests
+/httpRequests/
+
+*.xml
+
+!/codeStyleSettings.xml
+!/copyright/*.xml
+!/fileColors.xml
+!/encodings.xml
+!/gradle.xml
+!/runConfigurations/*.xml
+
+!/inspectionProfiles/*.xml
+/inspectionProfiles/profiles_settings.xml
+
+!/scopes/*.xml
+/scopes/scope_settings.xml
+
+!/templateLanguages.xml
+!/vcs.xml
