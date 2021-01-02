@@ -3,7 +3,6 @@ import os
 import shutil
 import time
 from urllib import request
-
 from bs4 import BeautifulSoup
 from sqlalchemy import create_engine
 import pandas as pd
@@ -24,6 +23,7 @@ def scraping(mkt, symbol, outfolder):
         print(symbol)
     time.sleep(4)
 
+
 # mysql
 CON_STR = 'mysql+mysqldb://python:python123@127.0.0.1/pythondb?charset=utf8&use_unicode=1'
 CON = create_engine(CON_STR, echo=False).connect()
@@ -34,9 +34,9 @@ shutil.rmtree(OUTFOLDER)
 os.mkdir(OUTFOLDER)
 
 # top 5 by industry
-print('\n' + 'top 5')
+print('top 5')
 # sql
-CON.execute('DELETE FROM vietnam_research_dailytop5')
+CON.execute('DELETE FROM vietnam_research_dailytop5 WHERE id IS NOT NULL')
 AGG = pd.read_sql_query(
     '''
     SELECT
@@ -44,12 +44,12 @@ AGG = pd.read_sql_query(
         , i.market_code
         , i.symbol
         , AVG(i.trade_price_of_a_day) AS trade_price_of_a_day
-        , AVG(i.per) AS per
+        , AVG(i.per) AS price_earnings_ratio
     FROM (vietnam_research_industry i INNER JOIN vietnam_research_indclass c
         ON i.industry1 = c.industry1) INNER JOIN vietnam_research_sbi s
         ON i.market_code = s.market_code AND i.symbol = s.symbol
     GROUP BY ind_name, i.market_code, i.symbol
-    HAVING per >1;
+    HAVING price_earnings_ratio >1;
     ''', CON)
 
 # criteria
