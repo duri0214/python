@@ -1,7 +1,7 @@
 import unittest
 from datetime import date
 
-from model import Batch, OrderLine
+from model import Batch, OrderLine, Person, Name
 
 
 class MyTestCase(unittest.TestCase):
@@ -60,6 +60,12 @@ class MyTestCase(unittest.TestCase):
         batch.allocate(OrderLine('order-123', 'ELEGANT-LAMP', 2))
         batch.allocate(OrderLine('order-1233', 'ELEGANT-LAMPP', 2))
         self.assertEqual(18, batch.available_quantity)
+
+    def test_barry_is_harry(self):
+        harry = Person(Name("Harry", "Percival"))
+        barry = harry
+        barry.name = Name("Barry", "Percival")
+        self.assertTrue(harry is barry and barry is harry)
 
 
 if __name__ == '__main__':
