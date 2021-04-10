@@ -10,6 +10,10 @@ class OrderLine:
     qty: int
 
 
+class OutOfStock(Exception):
+    pass
+
+
 class Batch:
     """SKU：Stock Keeping Unit"""
     def __init__(self, ref: str, sku: str, qty: int, eta: Optional[date]):
@@ -37,7 +41,7 @@ class Batch:
 
     def can_allocate(self, line: OrderLine) -> bool:
         """sku（最小管理単位）が同じで、skuの在庫がline.qty以上あれば true"""
-        return self.sku == line.sku and self._purchased_quantity >= line.qty
+        return self.sku == line.sku and self.available_quantity >= line.qty
 
     def __eq__(self, other):
         if not isinstance(other, Batch):
@@ -71,8 +75,11 @@ class Person:
 
 def allocate(line: OrderLine, batches: List[Batch]) -> str:
     """batchesをソートした上で先頭の要素にallocateを実行"""
-    batch = next(
-        b for b in sorted(batches) if b.can_allocate(line)
-    )
-    batch.allocate(line)
-    return batch.reference
+    try:
+        batch = next(
+            b for b in sorted(batches) if b.can_allocate(line)
+        )
+        batch.allocate(line)
+        return batch.reference
+    except StopIteration:
+        raise OutOfStock(f'Out of stock for sku {line.sku}')

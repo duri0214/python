@@ -1,7 +1,9 @@
 import unittest
 import datetime
 
-from model import Batch, OrderLine, allocate
+import pytest
+
+from model import Batch, OrderLine, allocate, OutOfStock
 
 
 class MyTestCase(unittest.TestCase):
@@ -30,13 +32,21 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(100, latest.available_quantity)
 
     def test_returns_allocated_batch_ref(self):
-        """allocateの返却が一致することを確認"""
+        """Batchとallocateの返却が一致することを確認"""
         tomorrow = (datetime.datetime.now() + datetime.timedelta(days=1))
         in_stock_batch = Batch('in-stock-batch-ref', 'HIGHBROW-POSTER', 100, eta=None)
         shipment_batch = Batch('shipment-batch-ref', 'HIGHBROW-POSTER', 100, eta=tomorrow)
         line = OrderLine('oref', 'HIGHBROW-POSTER', 10)
         allocation = allocate(line, [in_stock_batch, shipment_batch])
         self.assertTrue(allocation == in_stock_batch.reference)
+
+    def test_raises_out_of_stock_exception_if_cannot_allocate(self):
+        batch = Batch('batch1', 'SMALL-FORK', 10, eta=datetime.datetime.now())
+        line = OrderLine('order1', 'SMALL-FORK', 10)
+        allocate(line, [batch])
+        with pytest.raises(OutOfStock, match='SMALL-FORK'):
+            line = OrderLine('order2', 'SMALL-FORK', 1)
+            allocate(line, [batch])
 
 
 if __name__ == '__main__':
