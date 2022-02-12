@@ -10,4 +10,4 @@ urlpatterns = [
     path('store/<int:pk>/staffs/', views.StaffList.as_view(), name='staff_list'),
     path('staff/<int:pk>/calendar/', views.StaffCalendar.as_view(), name='calendar'),
     path('staff/<int:pk>/calendar/<int:year>/<int:month>/<int:day>/', views.StaffCalendar.as_view(), name='calendar'),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
