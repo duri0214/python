@@ -39,3 +39,12 @@ class Schedule(models.Model):
         start = timezone.localtime(self.start).strftime('%Y/%m/%d %H:%M:%S')
         end = timezone.localtime(self.end).strftime('%Y/%m/%d %H:%M:%S')
         return f'{self.name} {start} ~ {end} {self.staff}'
+
+
+class Task(models.Model):
+    """Task info"""
+    task = models.CharField(verbose_name='やること', max_length=255, blank=True, null=True)
+    set_date = models.DateField('いつまでに', blank=True, null=True)
+
+    def __str__(self):
+        return self.task

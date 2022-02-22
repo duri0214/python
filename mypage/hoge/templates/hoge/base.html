@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -17,10 +18,17 @@
             margin-right: 10px;
         }
     </style>
-</head>
 
+    <link rel="stylesheet" type="text/css" href="{% static 'admin/css/base.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'admin/css/forms.css' %}"/>
+    <script type="text/javascript" src="{% url 'admin:jsi18n' %}"></script>
+    {{ add_task_form.media }}
+    <script type="text/javascript" src="{% static 'admin/js/core.js' %}"></script>
+    <script type="text/javascript" src="{% static 'admin/js/admin/RelatedObjectLookups.js' %}"></script>
+</head>
 <body>
 
+a{{ form.as_p }}a
 <nav>
     <a href="{% url 'booking:store_list' %}">Home</a>
     {% if user.is_authenticated %}

@@ -1,6 +1,8 @@
 import datetime
 from django.shortcuts import get_object_or_404
 from django.views import generic
+
+from .forms import AddTaskForm
 from .models import Store, Staff, Schedule
 from django.utils import timezone
 from django.db.models import Q
@@ -98,4 +100,5 @@ class StaffCalendar(generic.TemplateView):
         context['next'] = days[-1] + datetime.timedelta(days=1)
         context['today'] = today
         context['public_holidays'] = PUBLIC_HOLIDAYS
+        context['add_task_form'] = AddTaskForm
         return context
