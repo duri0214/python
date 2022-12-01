@@ -46,3 +46,11 @@ class Test(TestCase):
         input_values = 'aaa_data bbb_data ccc_data'
         patterns = 'data,zzz'
         self.assertTrue(regex(input_values, patterns))
+
+    def test_regex_06(self):
+        """
+        正規表現のエスケープ文字が混入している
+        """
+        input_values = r'aaa_data .^$|\[({+abc"?bbb_data'
+        patterns = '+abc'
+        self.assertTrue(regex(input_values, patterns))
