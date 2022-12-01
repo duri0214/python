@@ -26,7 +26,7 @@ class Test(TestCase):
         patternが単数
         """
         input_values = 'aaa_data bbb_data ccc_data'
-        patterns = 'data,zzz'
+        patterns = 'data'
         separators = ',、'
         self.assertTrue(regex(input_values, patterns, separators))
 
