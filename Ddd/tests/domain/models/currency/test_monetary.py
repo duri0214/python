@@ -19,4 +19,3 @@ class MonetaryTest(unittest.TestCase):
         self.assertIsInstance(deserialized_monetary, Monetary)
         self.assertEqual(deserialized_monetary.amount, 2000)
         self.assertEqual(deserialized_monetary.currency, "USD")
-
