@@ -1,7 +1,7 @@
 from typing import Self
 
 
-class Currency:
+class CurrencyEntity:
     def __init__(self, code: str):
         self._code = code
 
@@ -10,7 +10,7 @@ class Currency:
         return self._code
 
     def __eq__(self, other: Self | str) -> bool:
-        if isinstance(other, Currency):
+        if isinstance(other, CurrencyEntity):
             return self.code == other.code
         elif isinstance(other, str):
             return self.code == other
