@@ -5,7 +5,7 @@ https://drive.google.com/drive/folders/1Z3flVWCdjFfneRiIUvQLVySZretux76f?usp=sha
 
 ## 必要なライブラリ
 
-- netcdf4
+- `netcdf4`
 
 ## Chapter2
 
@@ -17,7 +17,7 @@ https://drive.google.com/drive/folders/1Z3flVWCdjFfneRiIUvQLVySZretux76f?usp=sha
 
 - sst.mnmean.nc
 
-似た名前がいくつかあるのでファイル名 `sst.mnmean.nc` で識別する
+似た名前がいくつかあるので、以下の表を見ながらファイル名 `sst.mnmean.nc` で識別する
 
 | column    | value                   |
 |-----------|-------------------------|
@@ -36,4 +36,12 @@ https://drive.google.com/drive/folders/1Z3flVWCdjFfneRiIUvQLVySZretux76f?usp=sha
 ### データ元
 
 - [気象庁・過去の気象データ](https://www.data.jma.go.jp/gmd/risk/obsdl/index.php)
+
+手動で気温データをダウンロードする
+
+- 東京
+- 月別値: 月平均気温
+- 1875/06 - 2020/09 の天気データを取得する
+- `jma_temps_data.csv` にリネーム
+
 
