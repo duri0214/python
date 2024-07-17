@@ -1,11 +1,13 @@
 import os
 from pathlib import Path
 
-import matplotlib.pyplot as plt
 import numpy as np
 import datetime
 import netCDF4 as nc4
+from matplotlib import pyplot as plt
 from matplotlib.colors import Normalize
+
+import util
 
 LAND = 0
 
@@ -71,28 +73,12 @@ def convert_nc_to_ncz():
 
 
 def input_sst_file():
-    # 2.2.3 海面水温ファイルを入力する
-    file_path = Path("output") / "sst_OISST.npz"
-    sst_dataset = np.load(file_path)
-    sst = sst_dataset["sst"]
-    lon2 = sst_dataset["lon2"]
-    lat2 = sst_dataset["lat2"]
-    y = sst_dataset["y"]
-    m = sst_dataset["m"]
-
-    # 2.3.1 経度(longitude 0～360)と緯度(latitude 90～-90)
-    # 経度は東経0～180度、西経0～180度 でぜんぶで360要素(ただし、lon2は東に向かって0～360で定義される)
-    # 緯度は北緯0～90度、南緯0～90度、で全部で180要素(ただし、lat2は南緯が-90～0で定義される)
-    # lon2, lat2 は360行180列の行列
-    print(lon2)
-    print(lat2)
-    print(y)
-    print(m)
+    input_data = util.get_sea_surface_temperature_data()
 
     # 2.3.3 海面水温(SST) p.30
     # 3次元配列であるsstには360[lon]x180[lat]の各格子点における456ヶ月分の月平均海面水温が、単位℃で収録されている
     # 陸の気温はnanで潰されている
-    print(sst[:, :, 0])  # 1982年1月
+    print(input_data.sst[:, :, 0])  # 1982年1月
 
     # 2.4 エルニーニョ現象があった1997年12月の海面気温を描画してみる
     draw_year = 1997
@@ -102,10 +88,12 @@ def input_sst_file():
     vint = 5  # カラーバーの間隔
     color_map = plt.get_cmap("seismic")  # 深い青から深い赤に向かうカラーバーを指定
     cs = plt.contour(
-        lon2,
-        lat2,
+        input_data.lon2,
+        input_data.lat2,
         np.squeeze(
-            sst[:, :, (y == draw_year) * (m == draw_month)]
+            input_data.sst[
+                :, :, (input_data.y == draw_year) * (input_data.m == draw_month)
+            ]
         ),  # squeeze is 360x180x1 to 360x180
         cmap=color_map,
         norm=Normalize(vmin=vmin, vmax=vmax),
@@ -122,5 +110,6 @@ def input_sst_file():
 
 
 if __name__ == "__main__":
-    # convert_nc_to_ncz()
+    convert_nc_to_ncz()
+    util.get_sea_surface_temperature_data()
     input_sst_file()
