@@ -38,6 +38,10 @@ def convert_jma_to_df() -> pd.DataFrame:
 
 
 def calc_climatic_values(temp_data: pd.DataFrame):
+    """
+    3.3.2 気候値を計算する
+    @param temp_data:
+    """
     label_month = np.arange(1, 13, 1)
     work_clim = np.zeros(12)
 
