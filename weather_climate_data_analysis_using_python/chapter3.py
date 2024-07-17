@@ -8,6 +8,8 @@ import netCDF4 as nc4
 import pandas as pd
 from matplotlib.colors import Normalize
 
+from weather_climate_data_analysis_using_python import util
+
 
 def convert_jma_to_df() -> pd.DataFrame:
     """
@@ -53,6 +55,16 @@ def calc_climatic_values(temp_data: pd.DataFrame):
     plt.plot(label_month, work_clim)
     plt.xticks(label_month)
     plt.show()
+
+
+def draw_monthly_climate_values_of_sea_surface_temperature_distribution():
+    """
+    海面水温分布の月次気候値を描画
+    3.4.1 データセットの読み込み
+    3.4.2 海面水温気候値を計算 p.41
+    """
+    input_data = util.get_sea_surface_temperature_data()
+    pass
 
 
 if __name__ == "__main__":
