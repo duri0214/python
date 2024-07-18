@@ -72,7 +72,7 @@ def convert_nc_to_ncz():
     np.savez(file_path, sst=sst, lon2=lon2, lat2=lat2, y=y, m=m)
 
 
-def input_sst_file():
+def draw_the_sea_surface_temperature_for_a_given_month():
     input_data = util.get_sea_surface_temperature_data()
 
     # 2.3.3 海面水温(SST) p.30
@@ -80,7 +80,7 @@ def input_sst_file():
     # 陸の気温はnanで潰されている
     print(input_data.sst[:, :, 0])  # 1982年1月
 
-    # 2.4 エルニーニョ現象があった1997年12月の海面気温を描画してみる
+    # 2.4 ある月の海面水温を描画する（エルニーニョ現象があった1997年12月の海面気温）
     draw_year = 1997
     draw_month = 12
     vmin = -5  # カラーバーの下限
@@ -110,6 +110,6 @@ def input_sst_file():
 
 
 if __name__ == "__main__":
-    convert_nc_to_ncz()
+    # convert_nc_to_ncz()
     util.get_sea_surface_temperature_data()
-    input_sst_file()
+    draw_the_sea_surface_temperature_for_a_given_month()
