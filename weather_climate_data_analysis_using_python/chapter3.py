@@ -64,8 +64,47 @@ def draw_monthly_climate_values_of_sea_surface_temperature_distribution():
     3.4.2 海面水温気候値を計算 p.41
     """
     input_data = util.get_sea_surface_temperature_data()
-    pass
+    [imt, jmt, tmt] = input_data.sst.shape
+    sst_clim = np.zeros((imt, jmt, 12))
+    # TODO: calc_climatic_values を見てリファクタリングする
+    for mm in range(1, 13):
+        # 1次元目（経度）,2次元目（緯度）の方向には手をつけない
+        # 　 =>「配列の要素全部」という意味でコロンを置く
+        # 3次元目（時間の方向）について, 東京の気温の例と同様に
+        # sstのうちmがmmに等しい成分のみ取り出し
+        # 平均を取って時間ステップmm-1番目に代入
+        sst_clim[:, :, mm - 1] = np.mean(input_data.sst[:, :, input_data.m == mm], 2)
+    savefile = "output/sstc_OISST.npz"
+    np.savez(savefile, sst_clim=sst_clim, lon2=input_data.lon2, lat2=input_data.lat2)
+
+    # vminはカラーバーの下限, vmaxはカラーバーの上限
+    # vintはカラーバーの間隔
+    vmin = -5
+    vmax = 35
+    vint = 5
+
+    # 1月から12月までについて順番に描画
+    for mm in range(1, 13):
+        cm = plt.get_cmap("seismic")
+        cs = plt.contourf(
+            input_data.lon2,
+            input_data.lat2,
+            sst_clim[:, :, mm - 1],
+            cmap=cm,
+            norm=Normalize(vmin=vmin, vmax=vmax),
+            levels=np.arange(vmin, vmax + vint, vint),
+            extend="both",
+        )
+        plt.colorbar(cs)
+        plt.xlabel("Longitude")
+        plt.ylabel("Latitude")
+        clim_title = "month = " + str(mm)
+        plt.title(clim_title)
+        plt.xlim(0, 360)
+        plt.ylim(-90, 90)
+        plt.show()
 
 
 if __name__ == "__main__":
     calc_climatic_values(convert_jma_to_df())
+    draw_monthly_climate_values_of_sea_surface_temperature_distribution()
